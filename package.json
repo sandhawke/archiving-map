@@ -1,0 +1,36 @@
+{
+  "name": "archiving-map",
+  "version": "1.0.0",
+  "description": "a Map which also maintains previous values (like git)",
+  "main": "index.js",
+  "scripts": {
+    "test": "tap --cov test*.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sandhawke/archiving-map.git"
+  },
+  "keywords": [
+    "map",
+    "versioning",
+    "versioned",
+    "map",
+    "archiving",
+    "history",
+    "git"
+  ],
+  "author": "Sandro Hawke (http://hawke.org/sandro)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/sandhawke/archiving-map/issues"
+  },
+  "homepage": "https://github.com/sandhawke/archiving-map#readme",
+  "devDependencies": {
+    "tap": "^12.1.0",
+    "tape": "^4.9.1"
+  },
+  "dependencies": {
+    "debug": "^4.1.0",
+    "ssri": "^6.0.1"
+  }
+}
