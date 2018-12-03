@@ -12,7 +12,8 @@ v2 = await arc.set('user/alice', '<html> ....  whatever version 2 .... </html>')
 arc.get('user/alice')
 // => '<html> ....  whatever version 2 .... </html>'
 
-await arc.getVersion('user/alice', v1.id)
+// get a particular version
+await arc.get('user/alice', v1.hash)
 // => '<html> ....  whatever .... </html>
 
 
@@ -23,9 +24,11 @@ arc.set('icon.jpg', someBinaryData)
 
 ```
 
-Backed by simple-git.  A 'version' is one file in a commit.  We don't
-group into a commit.  Maybe we should?  Arc.setMany(kvmap) all in one
-commit, and with maybe one event distributed?  Hrm.  Later.
+Currently just mem.js version is implemented.
+
+Planning to make a version backed by git, which is why it's async.
+
+Maybe have a setMany(kvmap) to gather changes into one commit?
 
 Concurrency?  What happens if you call arc.set a second time before
 the first resolves?  Leave this up to git?  Or serialize it through a
@@ -35,11 +38,5 @@ Maybe simple-git does this for us.  Looks like it.
 
 v1, etc, are { time, hash, tags[] }.   maybe .key and .value, if you want to pass it in with any of those values set.   it's really makeVersion.
 
-
-
 arc.tag(vspec, 'tag')
-
-simplegit.tags(...) gets tags
-
-.show vs .catFile ?
 
