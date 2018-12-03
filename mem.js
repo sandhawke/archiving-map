@@ -1,3 +1,4 @@
+const EventEmitter = require('events')
 const vihash = require('./vihash')
 
 let keepVersions = 100
@@ -79,8 +80,9 @@ class Box {
   }
 }
 
-class ArchivingMap {
+class ArchivingMap extends EventEmitter {
   constructor (state) {
+    super()
     Object.assign(this, state)
     if (!this.map) this.map = new Map()
     if (this.keepVersions === undefined) this.keepVersions = keepVersions
@@ -98,6 +100,7 @@ class ArchivingMap {
   async set (key, value, options) {
     const box = this._getBox(key)
     const version = box.add(value, options)
+    this.emit('set', key)
     return version
   }
 
