@@ -26,6 +26,7 @@
   },
   "homepage": "https://github.com/sandhawke/archiving-map#readme",
   "devDependencies": {
+    "del": "^3.0.0",
     "tap": "^12.1.0",
     "tape": "^4.9.1",
     "tape-end-hook": "^1.0.2"

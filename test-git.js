@@ -12,8 +12,9 @@ async function start (t) {
   const dirname = await fs.mkdtemp(path.join(os.tmpdir(), 'archmap-test-'))
         .catch(console.error)
   atEnd(t, async () => {
-    await del(dirname)
-    // console.error('leaving dir for now', dirname)
+    console.error('keeping test dir for now: ', dirname)
+    // const paths = await del(dirname, {force: true})
+    // console.error('deleting ', paths)
   })
   const sg = simpleGit(dirname)
   await sg.init()
