@@ -1,5 +1,23 @@
-
 # archiving-map
+[![NPM version][npm-image]][npm-url]
+
+An **ArchivingMap** is like JavaScript **Map** except that:
+
+* Everything is async (using promises) because this kind of data should often be kept on slower storage (not memory)
+* Every value you set for a key is remembered and can be accessed later
+
+Basically ArchivingMap : Map == git : normal files
+
+Aside from being async, the API differs from Map like this
+
+* `await arc.set({key1: value1, key2: value2, key3: value3, ...})` because sometimes we want to set several values at once.  When backed by git, this makes the changes go into the same commit.
+* `await arc.get(key, vspec)` the option "version specifier" vspec to indicate which version you want.  It can be a tag, a hash, a counter value, or a time.  If it's a time, you'll get the version that was current at that time.
+* `await arc.getMeta(key, vspec)` operates the same as arc.get except that it returns the value wrapped in a metadata object with data about the version, including the hash values, tags, and modification time.
+* `await arc.tag(key, tagToBeAdded)`
+
+In addition, the construtor allows setting some parameters.
+
+## Example
 
 ```js
 const { ArchivingMap } = require('archiving-map')
@@ -20,23 +38,17 @@ await arc.get('user/alice', v1.hash)
 // binary data is fine, but there's no where to keep Content-Type.   So put
 // it in the key, like you do in a filesystem.
 arc.set('icon.jpg', someBinaryData)
-
-
 ```
 
-Currently just mem.js version is implemented.
+## Storage Implementations
 
-Planning to make a version backed by git, which is why it's async.
+This module just provides in-memory storage, which is fine for small, ephermeral data sets. Persistence modules can extend it.  Specificially:
 
-Maybe have a setMany(kvmap) to gather changes into one commit?
+* (almost working) [git-archiving-map](https://npmjs.org/package/git-archiving-map.git) makes the pathnames be keys and their contents be values, git handling all the versioning.
+* (planned) [fs-archiving-map](https://npmjs.org/package/fs-archiving-map.git) makes the pathnames be keys and their contents be values, with versioning done like in emacs, where the first version of `myfile` is called `myfile~1~`, etc.
 
-Concurrency?  What happens if you call arc.set a second time before
-the first resolves?  Leave this up to git?  Or serialize it through a
-sleep-loop with an input queue?   (loop.wake() when you add to the queue)
+Versions using pg and level and redis might be nice.  Also, a version
+that works in browsers would be good.
 
-Maybe simple-git does this for us.  Looks like it.
-
-v1, etc, are { time, hash, tags[] }.   maybe .key and .value, if you want to pass it in with any of those values set.   it's really makeVersion.
-
-arc.tag(vspec, 'tag')
-
+[npm-image]: https://img.shields.io/npm/v/archiving-map.svg?style=flat-square
+[npm-url]: https://npmjs.org/package/archiving-map
