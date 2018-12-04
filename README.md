@@ -11,11 +11,13 @@ Basically ArchivingMap : Map == git : normal files
 Aside from being async, the API differs from Map like this
 
 * `await arc.set({key1: value1, key2: value2, key3: value3, ...})` because sometimes we want to set several values at once.  When backed by git, this makes the changes go into the same commit.
-* `await arc.get(key, vspec)` the option "version specifier" vspec to indicate which version you want.  It can be a tag, a hash, a counter value, or a time.  If it's a time, you'll get the version that was current at that time.
-* `await arc.getMeta(key, vspec)` operates the same as arc.get except that it returns the value wrapped in a metadata object with data about the version, including the hash values, tags, and modification time.
-* `await arc.tag(key, tagToBeAdded)`
+* `await arc.get(key, vspec)` There is an optional "version specifier" vspec argument to indicate which version you want.  It can be a tag, a hash, a counter value, or a time.
+* `await arc.getMeta(key, vspec)` operates the same as arc.get except that it returns the value wrapped in a metadata object with data about the version, including the hash values, tags, and modification time.  It also has a way to list other versions.
+* `await arc.tag(key, tagToBeAdded)`  Add a tag string, to be later used as a vspec.
 
-In addition, the construtor allows setting some parameters.
+In addition, the construtor allows setting some tuning parameters,
+like how many versions to save.  Persistant implementations (eg git)
+may have additional methods to control synchronization.
 
 ## Example
 
