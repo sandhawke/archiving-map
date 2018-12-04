@@ -64,9 +64,9 @@ Fields of each VersionMeta object:
 * counter, first version is 1.  Might have gaps or might change if/when earlier versions are deleted or move beyond the keepVersions horizon.
 
 Async getter fields: (I don't love the naming, but it's quite unusual
-that these are async, and I don't know a better way.)  These need to
-be async to handle cases where we need to go to disk/remote to find
-some very-early version.
+that these are async, and I don't know a better way. See [eslint #8531](https://github.com/eslint/eslint/issues/8531)) These need to be
+async to handle cases where we need to go to disk/remote to find some
+very-early version.
 
 * await bodyAsync : promise of the string or Buffer of the body contents
 * await nextAsync, await previousAsync, await firstAsync, await currentAsync: resolve to the appropriate VersionMeta objects or null
